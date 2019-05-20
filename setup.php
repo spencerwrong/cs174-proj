@@ -3,7 +3,6 @@ require_once('login.php');
 $conn = new mysqli($hn,$un,$pw,$db);
 if($conn->connect_error) die($conn->connect_error);
 
-// Create the database final
 $query = "CREATE DATABASE IF NOT EXISTS viruscheck";
 $result = $conn->query($query);
 if(!$result) die ($conn->error);
@@ -38,7 +37,7 @@ add_user($conn, $fname, $lname, $user, $token, 0);
 function add_user($connection, $fn, $ln, $un, $pass, $admin) {
     $query = "INSERT INTO users VALUES('$fn', '$ln', '$un', '$pass', '$admin')";
     $result = $connection->query($query);
-    if(!$result) die($conn->error);
+    if(!$result) die($connection->error);
 }
 
 echo "done";
