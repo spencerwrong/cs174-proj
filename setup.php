@@ -39,5 +39,3 @@ function add_user($connection, $fn, $ln, $un, $pass, $admin) {
     $result = $connection->query($query);
     if(!$result) die($connection->error);
 }
-
-echo "done";
