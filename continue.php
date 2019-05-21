@@ -23,7 +23,7 @@ _END;
 
 echo <<< _END
 Upload Virus Signature<br>
-Name of malware: <input type="text" name="mName"><br>
+Name of malware: <input type="text" name="malware_name"><br>
 <input type="submit"><br>
 </form></body></html>
 _END;
@@ -46,20 +46,30 @@ else
 
 // Get File Contents
   $text_contents = file_get_contents($_FILES['file']['tmp_name']);
+  $m_name = mysql_entities_fix_string($conn, $_POST['malware_name']);
 
 // first 20 bytes is virus signature
 
+//logic : if you find the signature already, dont upload again
+// fix logic
+if($isAdmin == 1)
+{
 
-//
-//   $filename = get_post($conn, 'file');
-//   $text_contents = file_get_contents($filename);
-//   $query = "SELECT * FROM viruses where seq LIKE '%text_contents%'" .
-//   "(\"$file_contents\", $username)";
-//   $result = $conn->query($query);
-//   if (!$result) echo "INSERT failed: $query<br>" . $conn->error . "<br>";
-// }
+  $query = "SELECT * FROM viruses WHERE seq='%$text_contents%'";
+  $result = $conn->query($query);
+  if ($result)
+  {
+    $query = "INSERT INTO viruses (name, seq) VALUES ('$m_name', '$text_contents')";
+    $result = $conn->query($query);
+    if(!$result) die ("Data access failed: ".$conn->error);
+    else echo "Virus signature has been uploaded!";
+  }
+}
 
-// do shit with it
+// fix logic
+else { //isadmin == 0 if you find string sequence in seq column, contains a virus
+
+}
 
 // Functions
 function destroy_session_data() {
