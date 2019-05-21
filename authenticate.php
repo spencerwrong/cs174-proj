@@ -41,8 +41,8 @@
 		header('WWW-Authenticate: Basic realm="Restricted Section"');
 		header('HTTP/1.0 401 Unauthorized');
 		die ("Please enter your username and password");
-		echo "</a><br><a href=logout.php>Logout</a>";
 	}
+	
 	$connection->close();
 		function mysql_entities_fix_string($connection, $string)
 		{
