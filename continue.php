@@ -54,33 +54,21 @@ else
 // fix logic
 if($isAdmin == 1)
 {
-  $query = "SELECT * FROM viruses WHERE seq='$text_contents'";
+
+  $query = "SELECT * FROM viruses WHERE seq='%$text_contents%'";
   $result = $conn->query($query);
-  if (!$result)
+  if ($result)
   {
     $query = "INSERT INTO viruses (name, seq) VALUES ('$m_name', '$text_contents')";
     $result = $conn->query($query);
     if(!$result) die ("Data access failed: ".$conn->error);
     else echo "Virus signature has been uploaded!";
   }
-  else {
-    echo "Virus already in database.";
-  }
 }
 
 // fix logic
 else { //isadmin == 0 if you find string sequence in seq column, contains a virus
-  $query = "SELECT * FROM viruses WHERE seq LIKE '%$text_contents%'";
-  $result = $conn->query($query);
-  if(!$result) die ("Data access failed: " . $conn->error);
-  else {
-    if($result->num_rows == 0) {
-      echo "no virus detected";
-    }
-    else {
-      echo "virus detected";
-    }
-  }
+
 }
 
 // Functions
